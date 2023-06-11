@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .resume {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+        .name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+        .contact-info {
+            font-size: 16px;
+            color: #888;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 24px;
+            color: #333;
+            border-bottom: 2px solid #333;
+            display: inline-block;
+        }
+        .section p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        /* Estilos para tablets */
+        @media (max-width: 768px) {
+            .resume {
+                width: 90%;
+            }
+            .name {
+                font-size: 28px;
+            }
+            .section h2 {
+                font-size: 20px;
+            }
+            .section p {
+                font-size: 14px;
+            }
+        }
+
+        /* Estilos para celulares */
+        @media (max-width: 480px) {
+            .resume {
+                width: 100%;
+                padding: 20px;
+            }
+            .name {
+                font-size: 24px;
+            }
+            .section h2 {
+                font-size: 18px;
+            }
+            .section p {
+                font-size: 12px;
+            }
+        }
+        /* Estilos para o carrossel */
+        .owl-carousel .item {
+            position: relative;
+            padding: 30px 0px;
+            -webkit-transition: 200ms ease-in-out;
+            transition: 200ms ease-in-out;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        .owl-carousel .item img {
+            display: block;
+            width: 120px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        /* Estilo para o botão de feedback */
+        .feedback-button {
+            display: block;
+            width: 200px;
+            height: 40px;
+            margin: 20px auto;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".owl-carousel").owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                autoplayHoverPause: true
+            });
+
+            $(".name").click(function() {
+                $(".section").toggle();
+            });
+
+            $(".section").hover(
+                function() {
+                    $(this).css("color", "red");
+                }, function() {
+                    $(this).css("color", "");
+                }
+            );
+
+            $.ajax({
+                url: 'habilidades.json',
+                dataType: 'json',
+                success: function(data) {
+                    var habilidades = data;
+                    var habilidadesHtml = '';
+                    for (var i = 0; i < habilidades.length; i++) {
+                        habilidadesHtml += '<p>' + habilidades[i] + '</p>';
+                    }
+                    $('.habilidades').html(habilidadesHtml);
+                }
+            });
+
+            $(".section").click(function() {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($(this).text()).select();
+                document.execCommand("copy");
+                $temp.remove();
+
+                alert("Seção de habilidades copiada para a área de transferência");
+            });
+
+            $(".feedback-button").click(function() {
+                $.ajax({
+                    url: 'https://meu-servidor.com/feedback',
+                    type: 'POST',
+                    data: {
+                        feedback: 'Eu gosto deste currículo!'
+                    },
+                    success: function() {
+                        alert('Feedback enviado com sucesso!');
+                    },
+                    error: function() {
+                        alert('Ocorreu um erro ao enviar o feedback. Por favor, tente novamente mais tarde.');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="resume">
+        <div class="owl-carousel owl-theme">
+            <div class="item">
+                <img src="CEBUM1.jpg">
+            </div>
+            <div class="item">
+                <img src="CEBUM2.jpg">
+            </div>
+            <div class="item">
+                <img src="CEBUM3.jpg">
+            </div>
+        </div>
+        <div class="name">Cbum Junior</div>
+        <div class="contact-info">
+            <p>Email: cbumdeoliveira@gmail.com</p>
+            <p>Telefone: (11) 99999-9999</p>
+        </div>
+        <div class="section">
+            <h2>Experiência Profissional</h2>
+            <p>Mr. Olympia (3 anos consecutivos)</p>
+            <p>20 anos de experiência em treinos de atletas de alta performance</p>
+        </div>
+        <div class="section">
+            <h2>Educação</h2>
+            <p>Educação física - USP (2000-2004)</p>
+            <p>Mestrado em física quântica - USP (2007-2010)</p>
+            <p>Doutorado em física nuclear - USP (2012-2016)</p>
+        </div>
+        <div class="section">
+            <h2>Habilidades</h2>
+            <div class="habilidades"></div>
+        </div>
+        <div class="feedback-button">Enviar Feedback</div>
+    </div>
+</body>
+</html>
